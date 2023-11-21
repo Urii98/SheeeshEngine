@@ -78,7 +78,7 @@ public:
     
 public:
     std::vector<Mesh*> meshes;
-    const char* file_path;
+    const char* file_path= " ";
     bool MeshDebug;
 };
 

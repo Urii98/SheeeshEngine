@@ -140,20 +140,20 @@ void ModuleWindow::SetFulldesktop(bool newFulldesktop) {
 
 void ModuleWindow::OnWidthChanged()
 {
-	SDL_SetWindowSize(window, width, height);
-	App->renderer3D->OnResize(width, height);
+	//SDL_SetWindowSize(window, width, height);
+	//App->renderer3D->OnResize(width, height);
 
-	std::string aux = "Window Width attribute updated to: " + std::to_string(width);
-	LOG(aux.c_str());
+	//std::string aux = "Window Width attribute updated to: " + std::to_string(width);
+	//LOG(aux.c_str());
 }
 
 void ModuleWindow::OnHeightChanged()
 {
-	SDL_SetWindowSize(window, width, height);
-	App->renderer3D->OnResize(width, height);
+	//SDL_SetWindowSize(window, width, height);
+	//App->renderer3D->OnResize(width, height);
 
-	std::string aux = "Window Height attribute updated to: " + std::to_string(height);
-	LOG(aux.c_str());
+	//std::string aux = "Window Height attribute updated to: " + std::to_string(height);
+	//LOG(aux.c_str());
 
 }
 

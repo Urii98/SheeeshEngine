@@ -3,21 +3,13 @@
 #include "ModuleCamera3D.h"
 #include "MathGeoLib/include/Math/Quat.h"
 #include "MathGeoLib/include/Math/float3.h"
+#include "ComponentCamera.h"
 #include "ComponentTransform.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	name = "Camera3D";
 
-	X = float3(1.0f, 0.0f, 0.0f);
-	Y = float3(0.0f, 1.0f, 0.0f);
-	Z = float3(0.0f, 0.0f, 1.0f);
-
-	Position = float3(0.0f, 1.0f, 10.0f);
-	Reference = float3(0.0f, 0.0f, 0.0f);
-	ViewMatrix = IdentityMatrix;
-
-	CalculateViewMatrix();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -27,6 +19,8 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
+	sceneCamera = new ComponentCamera();
+	sceneCamera->FrustumCam.pos = float3(0, 0, 0);
 	bool ret = true;
 
 	return ret;
@@ -37,63 +31,54 @@ bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
 
+	delete sceneCamera;
+
 	return true;
 }
 
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Implement a debug camera with keys and mouse
-	// Now we can make this movememnt frame rate independant!
+	int wheel = -App->input->GetMouseZ();
+	float speed = 8.0f * dt;
 
-	float3 newPos(0, 0, 0);
-	float speed = 3.0f * dt;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		speed = 8.0f * 2 * dt;
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) sceneCamera->FrustumCam.pos.y += speed;
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) sceneCamera->FrustumCam.pos.y -= speed;
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) sceneCamera->FrustumCam.pos += sceneCamera->FrustumCam.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) sceneCamera->FrustumCam.pos -= sceneCamera->FrustumCam.front * speed;
+
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) sceneCamera->FrustumCam.pos -= sceneCamera->FrustumCam.WorldRight() * speed;
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) sceneCamera->FrustumCam.pos += sceneCamera->FrustumCam.WorldRight() * speed;
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) RotationAroundCamera();
+
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+		if (App->hierarchy->objSelected != nullptr) {
+			float3 target = App->hierarchy->objSelected->transform->getPosition();
+			sceneCamera->LookAt(target);
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+			float TargetDist = sceneCamera->FrustumCam.pos.Distance(target);
 
-		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos += Y * speed;
-		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos -= Y * speed;
+			RotationAroundCamera();
 
-		RotationAroundCamera(dt);
+			sceneCamera->FrustumCam.pos = target + (sceneCamera->FrustumCam.front * -TargetDist);
+		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) FocusCameraToSelectedObject();
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		if (App->hierarchy->objSelected != nullptr) {
+			float3 target = App->hierarchy->objSelected->transform->getPosition();
 
-	//newPos -= App->input->GetMouseZ() * Z;
-
-	Position += newPos;
-	Reference += newPos;
-
-	OrbitSelectedObject(dt);
-
-	
-
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)) {
-
-		// Center camera to 0,0,0 when pressing Left Alt
-
-		Reference = float3(0.0f, 0.0f, 0.0f);
-		LookAt(Reference);
-
+			sceneCamera->LookAt(target);
+		}
 	}
-	else {
-
-		// Orbital camera FPS when we aren't pressing Left Alt
-
-		Reference = Position;
-
-	}
-
-	// Recalculate matrix -------------
-	CalculateViewMatrix();
 
 	return UPDATE_CONTINUE;
 }
@@ -218,44 +203,35 @@ void ModuleCamera3D::OrbitSelectedObject(float dt)
 
 }
 
-void ModuleCamera3D::RotationAroundCamera(float dt)
+void ModuleCamera3D::RotationAroundCamera()
 {
 	int dx = -App->input->GetMouseXMotion();
 	int dy = -App->input->GetMouseYMotion();
 
-	float Sensitivity = 0.5f * dt;
+	Quat dir;
+	sceneCamera->FrustumCam.WorldMatrix().Decompose(float3(), dir, float3());
 
-	Position -= Reference;
+	if (dy != 0) {
+		float DeltaY = (float)dy * mouseSens;
 
-	if (dx != 0)
-	{
-		float DeltaX = (float)dx * Sensitivity;
+		Quat Y = Quat::identity;
+		Y.SetFromAxisAngle(float3(1.0f, 0.0f, 0.0f), DeltaY * DEGTORAD);
 
-		float3 rotationAxis(0.0f, 1.0f, 0.0f);
-		Quat rotationQuat = Quat::RotateAxisAngle(rotationAxis, DeltaX);
-
-		X = rotationQuat * X;
-		Y = rotationQuat * Y;
-		Z = rotationQuat * Z;
+		dir = dir * Y;
 	}
 
-	if (dy != 0)
-	{
-		float DeltaY = (float)dy * Sensitivity;
+	if (dx != 0) {
+		float DeltaX = (float)dx * mouseSens;
 
-		Quat rotationQuat = Quat::RotateAxisAngle(X, DeltaY);
+		Quat X = Quat::identity;
+		X.SetFromAxisAngle(float3(0.0f, 1.0f, 0.0f), DeltaX * DEGTORAD);
 
-		Y = rotationQuat * Y;
-		Z = rotationQuat * Z;
-
-		if (Y.y < 0.0f)
-		{
-			Z = float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			Y = Z.Cross(X);
-		}
+		dir = X * dir;
 	}
 
-	Position = Reference + Z * Position.Length();
+	float4x4 matrix = sceneCamera->FrustumCam.WorldMatrix();
+	matrix.SetRotatePart(dir.Normalized());
+	sceneCamera->FrustumCam.SetWorldMatrix(matrix.Float3x4Part());
 }
 
 float3 ModuleCamera3D::RotateVector(const float3& u, float angle, const float3& v)

@@ -1,10 +1,12 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "ComponentCamera.h"
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/float4x4.h"
 
 #include "glmath.h"
+class ComponentCamera;
 
 class ModuleCamera3D : public Module
 {
@@ -21,7 +23,7 @@ public:
 	void Move(const float3& Movement);
 	float* GetViewMatrix();
 	void FocusCameraToSelectedObject();
-	void RotationAroundCamera(float dt);
+	void RotationAroundCamera();
 	void OrbitSelectedObject(float dt);
 	float3 RotateVector(const float3& u, float angle, const float3& v);
 
@@ -34,7 +36,8 @@ private:
 
 public:
 
-	
+	ComponentCamera* sceneCamera;
+	float mouseSens = 0.50f;
 	float3 X, Y, Z, Position, Reference;
 
 private:
