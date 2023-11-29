@@ -31,14 +31,10 @@ float4x4 ComponentTransform::getLocalMatrix()
 
 void ComponentTransform::resetMatrix()
 {
-	matrix = { 1, 0, 0, 0,
-			   0, 1, 0, 0,
-			   0, 0, 1, 0,
-				0, 0, 0, 1 };
-
-	position = { 0, 0, 0 };
-	rotation = { 0, 0, 0 };
-	scale = { 1, 1, 1 };
+	matrix = float4x4::identity;
+	position = float3::zero;
+	rotation = float3::zero;
+	scale = float3::one;
 }
 
 float3 ComponentTransform::getPosition(bool globalPosition)

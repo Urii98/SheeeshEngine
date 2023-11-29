@@ -20,7 +20,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	sceneCamera = new ComponentCamera();
-	sceneCamera->FrustumCam.pos = float3(0, 0, 0);
+	sceneCamera->FrustumCam.pos = float3(0, 0, -10);
 	bool ret = true;
 
 	return ret;

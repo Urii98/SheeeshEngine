@@ -22,7 +22,7 @@ bool ModuleScene::Init()
 bool ModuleScene::Start() {
     
     root = new GameObject(nullptr);
-    root->name = ("Scene");
+    root->name = ("Scene"); 
 
 
 
@@ -41,6 +41,7 @@ update_status ModuleScene::PreUpdate(float dt) {
 
 update_status ModuleScene::Update(float dt) {
     
+    root->Update();
     UpdateGameObjects();
     return UPDATE_CONTINUE;
 }
