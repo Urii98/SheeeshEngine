@@ -56,6 +56,24 @@ bool ModuleCamera3D::CleanUp()
 	return true;
 }
 
+void ModuleCamera3D::DrawGuizmo(GameObject* obj)
+{
+	ImGuizmo::BeginFrame();
+	ImGuizmo::Enable(true);
+
+	ComponentTransform* transform = obj->GetTransformComponent();
+	ImVec2 cornerPos = ImGui::GetWindowPos();
+	ImVec2 size = ImGui::GetContentRegionMax();
+
+	int offset = ImGui::GetFrameHeight() / 2;
+	ImGuizmo::SetRect(cornerPos.x, cornerPos.y + offset, size.x, size.y);
+	ImGuizmo::SetDrawlist();
+	if (ImGuizmo::Manipulate(camera->viewMatrix.Transposed().ptr(), camera->frustum.ProjectionMatrix().Transposed().ptr(), operation, mode, transform->getGlobalMatrix().ptr()))
+	{
+
+	}
+}
+
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {

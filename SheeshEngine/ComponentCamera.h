@@ -39,8 +39,8 @@ public:
 	unsigned int frameBuffer;
 	unsigned int renderObjBuffer;
 
-private:
 	float4x4 viewMatrix;
+private:
 	float4x4 projectionMatrix;
 
 

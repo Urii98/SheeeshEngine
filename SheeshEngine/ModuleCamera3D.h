@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/float4x4.h"
+#include "ImGuismo/ImGuizmo.h"
 
 
 
@@ -25,6 +26,7 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	void DrawGuizmo(GameObject* obj);
 
 	float3 SelectedObjectPos();
 
@@ -33,6 +35,8 @@ public:
 private:
 
 	void MouseRotation(float dx, float dy, float sensitivity);
+	ImGuizmo::OPERATION operation;
+	ImGuizmo::MODE mode;
 
 public:
 
