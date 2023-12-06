@@ -58,20 +58,60 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::DrawGuizmo(GameObject* obj)
 {
-	ImGuizmo::BeginFrame();
-	ImGuizmo::Enable(true);
+	//ImGuizmo::BeginFrame();
+	//ImGuizmo::Enable(true);
 
-	ComponentTransform* transform = obj->GetTransformComponent();
-	ImVec2 cornerPos = ImGui::GetWindowPos();
-	ImVec2 size = ImGui::GetContentRegionMax();
+	//ComponentTransform* transform = obj->GetTransformComponent();
+	//ImVec2 cornerPos = ImGui::GetWindowPos();
+	//ImVec2 size = ImGui::GetContentRegionMax();
 
-	int offset = ImGui::GetFrameHeight() / 2;
-	ImGuizmo::SetRect(cornerPos.x, cornerPos.y + offset, size.x, size.y);
-	ImGuizmo::SetDrawlist();
-	if (ImGuizmo::Manipulate(camera->viewMatrix.Transposed().ptr(), camera->frustum.ProjectionMatrix().Transposed().ptr(), operation, mode, transform->getGlobalMatrix().ptr()))
-	{
+	//int offset = ImGui::GetFrameHeight() / 2;
+	//ImGuizmo::SetRect(cornerPos.x, cornerPos.y + offset, size.x, size.y);
+	//ImGuizmo::SetDrawlist();
+	//if (ImGuizmo::Manipulate(camera->viewMatrix.Transposed().ptr(), camera->frustum.ProjectionMatrix().Transposed().ptr(), operation, mode, transform->getGlobalMatrix().ptr()))
+	//{
 
-	}
+	//}
+
+	//ImGuizmo::BeginFrame();
+	//if (App->hierarchy->objSelected == nullptr) return;
+
+	//ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent();
+
+	//float* viewMatrix = App->camera->camera->viewMatrix.ptr();
+
+	//float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix();
+	//projectionMatrix.Transpose();
+
+	//float4x4 modelProjection = transform->getLocalMatrix();
+	//modelProjection.Transpose();
+
+	////ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+	////ImGuizmo::
+
+	//ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
+
+	////gizmoOperation
+	//float modelPtr[16];
+	//memcpy(modelPtr, modelProjection.ptr(), 16 * sizeof(float));
+
+	//ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
+
+	////Nothing Else Matters
+	//ImGuizmo::Manipulate(viewMatrix, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
+
+
+	//if (ImGuizmo::IsUsing())
+	//{
+	//	//Reformat ImGuizmo Transform output to our matrix
+	//	float4x4 newMatrix;
+	//	newMatrix.Set(modelPtr);
+	//	modelProjection = newMatrix.Transposed();
+
+	//	transform->SetLocalMatrix(modelProjection);
+
+	//	//App->editor->GameObject_selected->transform->RecalculateTransformHierarchy();
+	//}
 }
 
 // -----------------------------------------------------------------

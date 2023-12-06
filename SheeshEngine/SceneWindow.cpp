@@ -14,6 +14,9 @@ void SceneWindows::PrintScene(Application* app)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	ImGui::Begin("Scene");
 	sizeWindScn = ImGui::GetContentRegionAvail();
+	App->editor->guizmoWindowPos = ImGui::GetWindowPos();
+	App->editor->guizmoOffset = ImGui::GetFrameHeight() / 2;
+	App->editor->guizmoSize = ImGui::GetContentRegionAvail(); 
 
 	//Modify by aspect Ratio
 	float aspectRatio = sizeWindScn.x / sizeWindScn.y;

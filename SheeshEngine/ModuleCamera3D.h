@@ -35,8 +35,7 @@ public:
 private:
 
 	void MouseRotation(float dx, float dy, float sensitivity);
-	ImGuizmo::OPERATION operation;
-	ImGuizmo::MODE mode;
+
 
 public:
 
@@ -47,6 +46,8 @@ public:
 	CamStates camState;
 	GameObject* mainCamera;
 	GameObject* gameCamera;
-
+	
+	ImGuizmo::OPERATION operation;
+	ImGuizmo::MODE mode;
 	
 };

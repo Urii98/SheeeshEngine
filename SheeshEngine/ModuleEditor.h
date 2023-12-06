@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <deque>
+#include "ImGui/imgui.h"
 
 class ModuleEditor : public Module
 {
@@ -53,6 +54,7 @@ private:
 public:
     std::deque<std::string>* logs = nullptr;
 
+    void TryGuizmos();
 
 private:
     std::vector<float> mFPSLog;
@@ -68,6 +70,10 @@ private:
     bool guizmosBool = true;
 public:
     float brightness;
+    
+    ImVec2 guizmoSize;
+    ImVec2 guizmoWindowPos;
+    int guizmoOffset;
 
 private:
     //Renderer info

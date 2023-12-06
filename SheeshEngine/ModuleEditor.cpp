@@ -16,6 +16,7 @@
 #include "ComponentCamera.h"
 #include "SceneWindow.h"
 #include"GameWindow.h"
+#include "ComponentTransform.h"
 
 #include "Assimp/include/ai_assert.h"
 #include "Assimp/include/version.h"
@@ -147,7 +148,8 @@ update_status ModuleEditor::DrawEditor()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-
+    ImGuizmo::BeginFrame();
+    ImGuizmo::Enable(true);
     EditorShortcuts();
 
     
@@ -169,6 +171,7 @@ update_status ModuleEditor::DrawEditor()
 
     ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+    ImGui::DockSpaceOverViewport(NULL, ImGuiDockNodeFlags_PassthruCentralNode);
 
 
     ImGui::End();
@@ -421,8 +424,42 @@ update_status ModuleEditor::DrawEditor()
         ImGui::End();
     }
 
-    GameWindows::PrintCamera(App);
-    SceneWindows::PrintScene(App);
+    //GameWindows::PrintCamera(App);
+    //SceneWindows::PrintScene(App);
+    bool isHovered;
+
+    //Begin scene & get size
+    
+    if (ImGui::Begin("Scene"), true)
+    {
+        ImVec2 sizeWindScn = ImGui::GetContentRegionAvail();
+        App->editor->guizmoWindowPos = ImGui::GetWindowPos();
+        App->editor->guizmoOffset = ImGui::GetFrameHeight() / 2;
+        App->editor->guizmoSize = ImGui::GetContentRegionAvail();
+
+        //Modify by aspect Ratio
+        float aspectRatio = sizeWindScn.x / sizeWindScn.y;
+        App->camera->camera->SetAspectRatio(aspectRatio);
+        ImGui::Image((ImTextureID)App->camera->camera->cameraBuffer, sizeWindScn, ImVec2(0, 1), ImVec2(1, 0));
+
+        if (ImGui::IsWindowHovered())
+        {
+            isHovered = true;
+        }
+        else
+        {
+            isHovered = false;
+        }
+        TryGuizmos();
+
+        ImGui::End();
+        
+
+        
+	}
+    
+
+
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -430,6 +467,69 @@ update_status ModuleEditor::DrawEditor()
     return ret;
 
     
+}
+
+void ModuleEditor::TryGuizmos()
+{
+
+
+ /*   ImGuizmo::BeginFrame();
+    ImGuizmo::Enable(true);
+
+    if (App->hierarchy->objSelected == nullptr) return;
+
+    ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent();
+    ImVec2 cornerPos = ImGui::GetWindowPos();
+    ImVec2 size = ImGui::GetContentRegionAvail();
+
+    int offset = ImGui::GetFrameHeight() / 2;
+    ImGuizmo::SetRect(440, 89, 681, 751);
+    ImGuizmo::SetDrawlist();
+    if (ImGuizmo::Manipulate(App->camera->camera->viewMatrix.Transposed().ptr(), App->camera->camera->frustum.ProjectionMatrix().Transposed().ptr(), App->camera->operation, App->camera->mode, transform->getGlobalMatrix().ptr()))
+    {
+
+    }*/
+
+
+    ImGuizmo::BeginFrame(); 
+    if (App->hierarchy->objSelected == nullptr) return; 
+
+    ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent(); 
+
+    float* viewMatrix = App->camera->camera->viewMatrix.ptr(); 
+
+    float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix(); 
+    projectionMatrix.Transpose(); 
+
+    float4x4 modelProjection = transform->getLocalMatrix(); 
+    modelProjection.Transpose(); 
+
+    //ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+    //ImGuizmo::
+
+    ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
+
+    //gizmoOperation
+    float modelPtr[16];
+    memcpy(modelPtr, modelProjection.ptr(), 16 * sizeof(float));
+
+    ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
+
+    //Nothing Else Matters
+    ImGuizmo::Manipulate(viewMatrix, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
+
+
+    if (ImGuizmo::IsUsing())
+    {
+        //Reformat ImGuizmo Transform output to our matrix
+        float4x4 newMatrix;
+        newMatrix.Set(modelPtr);
+        modelProjection = newMatrix.Transposed();
+
+        transform->SetLocalMatrix(modelProjection);
+
+        //App->editor->GameObject_selected->transform->RecalculateTransformHierarchy();
+    }
 }
 
 void ModuleEditor::EditorShortcuts()

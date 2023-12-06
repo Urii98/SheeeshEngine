@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include "ModuleCamera3D.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -42,6 +43,11 @@ update_status ModuleScene::Update(float dt) {
 
     root->Update();
     UpdateGameObjects();
+
+    if (App->input->GetKey(SDL_SCANCODE_W)) App->camera->operation = ImGuizmo::OPERATION::TRANSLATE;
+    else if (App->input->GetKey(SDL_SCANCODE_E)) App->camera->operation = ImGuizmo::OPERATION::ROTATE;
+    else if (App->input->GetKey(SDL_SCANCODE_R)) App->camera->operation = ImGuizmo::OPERATION::SCALE;
+
     return UPDATE_CONTINUE;
 }
 
@@ -360,3 +366,5 @@ float4x4 ModuleScene::strMatrixToF4x4(const char* convert)
 
     return matrix;
 }
+
+
