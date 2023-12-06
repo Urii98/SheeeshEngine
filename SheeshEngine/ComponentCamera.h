@@ -37,6 +37,7 @@ public:
 
 	unsigned int cameraBuffer;
 	unsigned int frameBuffer;
+	unsigned int texColorBuffer = 0;
 	unsigned int renderObjBuffer;
 
 	float4x4 viewMatrix;

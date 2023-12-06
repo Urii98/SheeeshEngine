@@ -170,6 +170,7 @@ update_status ModuleEditor::DrawEditor()
     ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
+
     ImGui::End();
 
     UpdatePlots();
@@ -884,6 +885,27 @@ float ModuleEditor::AverageValueFloatVector(const std::vector<float>& fps)
 
     float average = total / fps.size();
     return std::round(average * 10) / 10.0f;
+}
+
+void ModuleEditor::DrawGuizmos()
+{
+    if (ImGui::Begin("Scenea", &guizmosBool, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
+    {
+        // Check if some key/mouseButton are pressed
+        if (ImGui::IsWindowHovered())
+        {
+            App->camera->Update(App->dt);
+        }
+
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        App->camera->camera->SetAspectRatio(size.x / size.y);
+
+        ImGui::Image((ImTextureID)App->camera->camera->texColorBuffer, size, ImVec2(0, 1), ImVec2(1, 0));
+
+        if (App->hierarchy->objSelected != nullptr)
+            App->camera->DrawGuizmo(App->hierarchy->objSelected);
+    }
+    ImGui::End();
 }
 
 

@@ -29,6 +29,9 @@ void SceneWindows::PrintScene(Application* app)
 		isHovered = false;
 	}
 
+	if (App->hierarchy->objSelected != nullptr)
+		App->camera->DrawGuizmo(App->hierarchy->objSelected);
+
 	ImGui::End();
 	ImGui::PopStyleVar();
 
