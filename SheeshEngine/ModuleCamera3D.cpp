@@ -12,7 +12,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 {
 	name = "Camera3D";
 
-
+	
 	camState = CamStates::NORMAL;
 
 	X = float3(1.0f, 0.0f, 0.0f);
@@ -31,6 +31,8 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
+	operation = ImGuizmo::TRANSLATE;
 
 	camera = new ComponentCamera();
 	camera->frustum.pos = float3(-1, 2, -10);
