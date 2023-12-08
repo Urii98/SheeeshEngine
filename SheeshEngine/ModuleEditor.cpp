@@ -471,41 +471,18 @@ update_status ModuleEditor::DrawEditor()
 
 void ModuleEditor::TryGuizmos()
 {
-
-
- /*   ImGuizmo::BeginFrame();
-    ImGuizmo::Enable(true);
-
-    if (App->hierarchy->objSelected == nullptr) return;
-
-    ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent();
-    ImVec2 cornerPos = ImGui::GetWindowPos();
-    ImVec2 size = ImGui::GetContentRegionAvail();
-
-    int offset = ImGui::GetFrameHeight() / 2;
-    ImGuizmo::SetRect(440, 89, 681, 751);
-    ImGuizmo::SetDrawlist();
-    if (ImGuizmo::Manipulate(App->camera->camera->viewMatrix.Transposed().ptr(), App->camera->camera->frustum.ProjectionMatrix().Transposed().ptr(), App->camera->operation, App->camera->mode, transform->getGlobalMatrix().ptr()))
-    {
-
-    }*/
-
-
-    ImGuizmo::BeginFrame(); 
     if (App->hierarchy->objSelected == nullptr) return; 
 
     ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent(); 
 
-    float* viewMatrix = App->camera->camera->viewMatrix.ptr(); 
+    float4x4 viewMatrix = App->camera->camera->frustum.ViewMatrix();
+    float* viewMatrixf = viewMatrix.Transposed().ptr();
 
     float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix(); 
-    projectionMatrix.Transpose(); 
+    projectionMatrix = projectionMatrix.Transposed();
 
     float4x4 modelProjection = transform->getLocalMatrix(); 
     modelProjection.Transpose(); 
-
-    //ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
-    //ImGuizmo::
 
     ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
 
@@ -515,13 +492,11 @@ void ModuleEditor::TryGuizmos()
 
     ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
 
-    //Nothing Else Matters
-    ImGuizmo::Manipulate(viewMatrix, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
+    ImGuizmo::Manipulate(viewMatrixf, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
 
 
     if (ImGuizmo::IsUsing())
-    {
-        //Reformat ImGuizmo Transform output to our matrix
+    {        
         float4x4 newMatrix;
         newMatrix.Set(modelPtr);
         modelProjection = newMatrix.Transposed();
@@ -986,28 +961,6 @@ float ModuleEditor::AverageValueFloatVector(const std::vector<float>& fps)
     float average = total / fps.size();
     return std::round(average * 10) / 10.0f;
 }
-
-void ModuleEditor::DrawGuizmos()
-{
-    if (ImGui::Begin("Scenea", &guizmosBool, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
-    {
-        // Check if some key/mouseButton are pressed
-        if (ImGui::IsWindowHovered())
-        {
-            App->camera->Update(App->dt);
-        }
-
-        ImVec2 size = ImGui::GetContentRegionAvail();
-        App->camera->camera->SetAspectRatio(size.x / size.y);
-
-        ImGui::Image((ImTextureID)App->camera->camera->texColorBuffer, size, ImVec2(0, 1), ImVec2(1, 0));
-
-        if (App->hierarchy->objSelected != nullptr)
-            App->camera->DrawGuizmo(App->hierarchy->objSelected);
-    }
-    ImGui::End();
-}
-
 
 
 void ModuleEditor::LOGToConsole(const char* text) {

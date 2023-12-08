@@ -26,7 +26,6 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
-	void DrawGuizmo(GameObject* obj);
 
 	float3 SelectedObjectPos();
 
