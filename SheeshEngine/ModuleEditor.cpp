@@ -59,14 +59,14 @@ bool ModuleEditor::Init()
     wireframeMode = false;
 
     //Window info
-    fullscreen = App->window->IsFullscreen();
+  /*  fullscreen = App->window->IsFullscreen();
     resizable = App->window->IsResizable();
     borderless = App->window->IsBorderless();
     fulldesktop = App->window->IsFulldesktop();
-    brightness = SDL_GetWindowBrightness(App->window->window);
+    brightness = SDL_GetWindowBrightness(App->window->window);*/
     
     //Renderer info
-    vsync = App->renderer3D->GetVsync();
+ /*   vsync = App->renderer3D->GetVsync();
     depthTest = App->renderer3D->GetDepthTestAttribute();
     cullFace = App->renderer3D->GetCullFaceAttribute();
     lighting = App->renderer3D->GetLightingAttribute();
@@ -76,7 +76,7 @@ bool ModuleEditor::Init()
     alphaTest = App->renderer3D->GetAlphaTestAttribute();
     lineSmooth = App->renderer3D->GetLineSmoothAttribute();
     pointSmooth = App->renderer3D->GetPointSmoothAttribute();
-    polygonSmooth = App->renderer3D->GetPolygonSmoothAttribute();
+    polygonSmooth = App->renderer3D->GetPolygonSmoothAttribute();*/
 
     //Hardware Info
     SDL_version versionSDL;
@@ -458,7 +458,7 @@ update_status ModuleEditor::DrawEditor()
         
 	}
     
-
+    UpdateThings();
 
 
     ImGui::Render();
@@ -467,6 +467,40 @@ update_status ModuleEditor::DrawEditor()
     return ret;
 
     
+}
+
+void ModuleEditor::UpdateThings()
+{
+    App->renderer3D->SetVsync(vsync);
+    App->window->SetFullscreen(fullscreen);
+
+    App->window->SetResizable(resizable);
+    App->window->SetBorderless(borderless);
+    App->window->SetFulldesktop(fulldesktop);
+
+
+    App->renderer3D->SetDepthTestAttribute(depthTest);
+    App->renderer3D->SetCullFaceAttribute(cullFace);
+    App->renderer3D->SetLightingAttribute(lighting);
+    App->renderer3D->SetColorMaterialAttribute(coloMaterial);
+    App->renderer3D->SetTexture2DAttribute(texture2D);
+    App->renderer3D->SetBlendAttribute(blend);
+    App->renderer3D->SetAlphaTestAttribute(alphaTest);
+    App->renderer3D->SetLineSmoothAttribute(lineSmooth);
+    App->renderer3D->SetPointSmoothAttribute(pointSmooth);
+    App->renderer3D->SetPolygonSmoothAttribute(polygonSmooth);
+
+    if (wireframeMode)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        LOG("Wireframe Mode On");
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        LOG("Wireframe Mode Off");
+    }
+
 }
 
 void ModuleEditor::TryGuizmos()
@@ -500,44 +534,6 @@ void ModuleEditor::TryGuizmos()
     {
 
     }
-
-    //////////////////////
-
-    //if (App->hierarchy->objSelected == nullptr) return; 
-
-    //ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent(); 
-
-    //float4x4 viewMatrix = App->camera->camera->frustum.ViewMatrix();
-    //float* viewMatrixf = viewMatrix.Transposed().ptr();
-
-    //float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix(); 
-    //projectionMatrix = projectionMatrix.Transposed();
-
-    //float4x4 modelProjection = transform->getLocalMatrix(); 
-    //modelProjection.Transpose(); 
-
-    //ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
-
-    ////gizmoOperation
-    //float modelPtr[16];
-    //memcpy(modelPtr, modelProjection.ptr(), 16 * sizeof(float));
-
-    //ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
-
-    //ImGuizmo::Manipulate(viewMatrixf, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
-
-
-    //if (ImGuizmo::IsUsing())
-    //{        
-    //    float4x4 newMatrix;
-    //    newMatrix.Set(modelPtr);
-    //    modelProjection = newMatrix.Transposed();
-
-    //    transform->SetLocalMatrix(modelProjection);
-
-    //    //App->editor->GameObject_selected->transform->RecalculateTransformHierarchy();
-    //}
-
 
 
 
@@ -620,6 +616,7 @@ void ModuleEditor::HardwareCollapsingHeader()
     }
 }
 
+
 void ModuleEditor::WindowCollapsingHeader()
 {
     if (ImGui::CollapsingHeader("Window"))
@@ -633,12 +630,14 @@ void ModuleEditor::WindowCollapsingHeader()
             if (ImGui::Checkbox("Fullscreen", &fullscreen))
             {
                 App->window->SetFullscreen(fullscreen);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("Resizable", &resizable))
             {
                 App->window->SetResizable(resizable);
+
             }
 
             ImGui::TableNextColumn();
@@ -648,15 +647,16 @@ void ModuleEditor::WindowCollapsingHeader()
             if (ImGui::Checkbox("Borderless", &borderless))
             {
                 App->window->SetBorderless(borderless);
+
             }
             
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("Full Desktop", &fulldesktop))
             {
                 App->window->SetFulldesktop(fulldesktop);
+
             }
 
-   
             ImGui::TableNextColumn();
             ImGui::SliderInt("Window Height", &App->window->height, 256, 2048);
 
@@ -675,6 +675,7 @@ void ModuleEditor::WindowCollapsingHeader()
     }
 }
 
+
 void ModuleEditor::RenderCollapsingHeader()
 {
     if (ImGui::CollapsingHeader("Renderer"))
@@ -685,18 +686,22 @@ void ModuleEditor::RenderCollapsingHeader()
             if (ImGui::Checkbox("GL_DEPTH_TEST", &depthTest))
             {
                 App->renderer3D->SetDepthTestAttribute(depthTest);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_CULL_FACE", &cullFace))
             {
                 App->renderer3D->SetCullFaceAttribute(cullFace);
+
             }
+
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_LIGHTING", &lighting))
             {
                 App->renderer3D->SetLightingAttribute(lighting);
+
             }
 
             ImGui::Spacing();
@@ -705,18 +710,21 @@ void ModuleEditor::RenderCollapsingHeader()
             if (ImGui::Checkbox("GL_COLOR_MATERIAL", &coloMaterial))
             {
                 App->renderer3D->SetColorMaterialAttribute(coloMaterial);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_TEXTURE_2D", &texture2D))
             {
                 App->renderer3D->SetTexture2DAttribute(texture2D);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_BLEND", &blend))
             {
                 App->renderer3D->SetBlendAttribute(blend);
+
             }
 
             ImGui::Spacing();
@@ -725,30 +733,44 @@ void ModuleEditor::RenderCollapsingHeader()
             if (ImGui::Checkbox("GL_ALPHA_TEST", &alphaTest))
             {
                 App->renderer3D->SetAlphaTestAttribute(alphaTest);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_LINE_SMOOTH", &lineSmooth))
             {
                 App->renderer3D->SetLineSmoothAttribute(lineSmooth);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_POINT_SMOOTH", &pointSmooth))
             {
                 App->renderer3D->SetPointSmoothAttribute(pointSmooth);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("GL_POLYGON_SMOOTH", &polygonSmooth))
             {
                 App->renderer3D->SetPolygonSmoothAttribute(polygonSmooth);
+
             }
 
             ImGui::TableNextColumn();
             if (ImGui::Checkbox("WIREFRAME_MODE", &wireframeMode))
             {
-                App->renderer3D->SetWireframeMode(wireframeMode);
+                if (wireframeMode)
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                    LOG("Wireframe Mode On");
+                }
+                else
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                    LOG("Wireframe Mode Off");
+                }
+
             }
 
             ImGui::Spacing();

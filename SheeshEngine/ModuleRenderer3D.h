@@ -8,6 +8,8 @@
 #include "Primitive.h"
 #include "ComponentCamera.h"
 #include "Glew/include/glew.h"
+#include "Application.h"
+#include "ModuleEditor.h"
 
 
 //todo: REMOVE this before 1st delivery!!
@@ -54,17 +56,6 @@ public:
 	void SetVsync(bool vsync);
 
 	//Getter functions for renderer attributes
-	bool GetDepthTestAttribute() const { return depthTestAttribute; }
-	bool GetCullFaceAttribute() const { return cullFaceAttribute; }
-	bool GetLightingAttribute() const { return lightingAttribute; }
-	bool GetColorMaterialAttribute() const { return colorMaterialAttribute; }
-	bool GetTexture2DAttribute() const { return texture2DAttribute; }
-	bool GetBlendAttribute() const { return blendAttribute; }
-	bool GetAlphaTestAttribute() const { return alphaTestAttribute; }
-	bool GetLineSmoothAttribute() const { return lineSmoothAttribute; }
-	bool GetPointSmoothAttribute() const { return pointSmoothAttribute; }
-	bool GetPolygonSmoothAttribute() const { return polygonSmoothAttribute; }
-	bool GetVsync() const { return vsync; }
 
 	void SetWireframeMode(bool enable);
 
@@ -100,21 +91,7 @@ public:
 	
 	
 private:
-	//renderer attributes
-	bool vsync;
-	bool depthTestAttribute;
-	bool cullFaceAttribute;
-	bool lightingAttribute;
-	bool colorMaterialAttribute;
-	bool texture2DAttribute;
-	bool blendAttribute;
-	bool alphaTestAttribute;
-	bool lineSmoothAttribute;
-	bool pointSmoothAttribute;
-	bool polygonSmoothAttribute;
 
-	//renderer mode
-	bool wireframeMode;
 
 	ComponentCamera* mainGameCamera;
 };

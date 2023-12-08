@@ -55,8 +55,9 @@ public:
     std::deque<std::string>* logs = nullptr;
 
     void TryGuizmos();
+    void UpdateThings();
 
-private:
+public:
     std::vector<float> mFPSLog;
     std::vector<float> mMsLog;
     
@@ -76,7 +77,7 @@ public:
     int guizmoOffset;
     ImVec2 sizeWindScn;
 
-private:
+public:
     //Renderer info
     bool vsync;
     bool depthTest;
@@ -125,4 +126,8 @@ private:
     std::string license;
 
 };
+
+
+
+
 
