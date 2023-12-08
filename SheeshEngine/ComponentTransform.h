@@ -30,7 +30,7 @@ public:
 
 	void PrintInspector();
 
-
+	void SetTransformMatrixW(float4x4 matrix);
 	
 
 private:

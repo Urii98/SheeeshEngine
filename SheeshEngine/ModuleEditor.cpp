@@ -432,7 +432,7 @@ update_status ModuleEditor::DrawEditor()
     
     if (ImGui::Begin("Scene"), true)
     {
-        ImVec2 sizeWindScn = ImGui::GetContentRegionAvail();
+        sizeWindScn = ImGui::GetContentRegionAvail();
         App->editor->guizmoWindowPos = ImGui::GetWindowPos();
         App->editor->guizmoOffset = ImGui::GetFrameHeight() / 2;
         App->editor->guizmoSize = ImGui::GetContentRegionAvail();
@@ -471,40 +471,78 @@ update_status ModuleEditor::DrawEditor()
 
 void ModuleEditor::TryGuizmos()
 {
-    if (App->hierarchy->objSelected == nullptr) return; 
+    if (App->hierarchy->objSelected == nullptr) return;
+    ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent();
+    if (transform == nullptr) return;
 
-    ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent(); 
 
-    float4x4 viewMatrix = App->camera->camera->frustum.ViewMatrix();
-    float* viewMatrixf = viewMatrix.Transposed().ptr();
+    ImGuizmo::SetDrawlist();
 
-    float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix(); 
-    projectionMatrix = projectionMatrix.Transposed();
+    float x = ImGui::GetWindowPos().x;
+    float y = ImGui::GetWindowPos().y;
+    float w = sizeWindScn.x;
+    float h = sizeWindScn.y;
+    //Guizmo
 
-    float4x4 modelProjection = transform->getLocalMatrix(); 
-    modelProjection.Transpose(); 
-
-    ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
-
-    //gizmoOperation
-    float modelPtr[16];
-    memcpy(modelPtr, modelProjection.ptr(), 16 * sizeof(float));
+    float4x4 aux = transform->getGlobalMatrix();
 
     ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
 
-    ImGuizmo::Manipulate(viewMatrixf, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
-
-
-    if (ImGuizmo::IsUsing())
-    {        
-        float4x4 newMatrix;
-        newMatrix.Set(modelPtr);
-        modelProjection = newMatrix.Transposed();
-
-        transform->SetLocalMatrix(modelProjection);
-
-        //App->editor->GameObject_selected->transform->RecalculateTransformHierarchy();
+    ImGuizmo::SetRect(x, y, w, h);
+    if (ImGuizmo::Manipulate(App->camera->camera->GetViewMatrix(), App->camera->camera->GetProjetionMatrix(), App->camera->operation, finalMode, &aux.v[0][0]))
+    {
+        aux.Transpose();
+        transform->SetTransformMatrixW(aux);
     }
+
+
+    if (ImGuizmo::IsOver())
+    {
+
+    }
+
+    //////////////////////
+
+    //if (App->hierarchy->objSelected == nullptr) return; 
+
+    //ComponentTransform* transform = App->hierarchy->objSelected->GetTransformComponent(); 
+
+    //float4x4 viewMatrix = App->camera->camera->frustum.ViewMatrix();
+    //float* viewMatrixf = viewMatrix.Transposed().ptr();
+
+    //float4x4 projectionMatrix = App->camera->camera->frustum.ProjectionMatrix(); 
+    //projectionMatrix = projectionMatrix.Transposed();
+
+    //float4x4 modelProjection = transform->getLocalMatrix(); 
+    //modelProjection.Transpose(); 
+
+    //ImGuizmo::SetRect(App->editor->guizmoWindowPos.x, App->editor->guizmoWindowPos.y + App->editor->guizmoOffset, App->editor->guizmoSize.x, App->editor->guizmoSize.y);
+
+    ////gizmoOperation
+    //float modelPtr[16];
+    //memcpy(modelPtr, modelProjection.ptr(), 16 * sizeof(float));
+
+    //ImGuizmo::MODE finalMode = (App->camera->operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : App->camera->mode);
+
+    //ImGuizmo::Manipulate(viewMatrixf, projectionMatrix.ptr(), App->camera->operation, finalMode, modelPtr);
+
+
+    //if (ImGuizmo::IsUsing())
+    //{        
+    //    float4x4 newMatrix;
+    //    newMatrix.Set(modelPtr);
+    //    modelProjection = newMatrix.Transposed();
+
+    //    transform->SetLocalMatrix(modelProjection);
+
+    //    //App->editor->GameObject_selected->transform->RecalculateTransformHierarchy();
+    //}
+
+
+
+
+
+
 }
 
 void ModuleEditor::EditorShortcuts()

@@ -74,6 +74,7 @@ public:
     ImVec2 guizmoSize;
     ImVec2 guizmoWindowPos;
     int guizmoOffset;
+    ImVec2 sizeWindScn;
 
 private:
     //Renderer info
