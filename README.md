@@ -3,7 +3,7 @@
 ## Description
 Primal Engine is a videogame engine for 3rd grade subject 'Game Engines' of the videogame design and development grade at UPC CITM.
 
-Our Github Link: https://github.com/IvanBSupc/Primal_Engine
+Our Github Link: https://github.com/Maksym203/PrimalEngine
 
 ## Team
 Iván Bermúdez Sagra: [IvanBSupc](https://github.com/IvanBSupc)
