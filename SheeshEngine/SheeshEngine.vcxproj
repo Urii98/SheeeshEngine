@@ -43,6 +43,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)ImGui;$(ProjectDir)ImGui\backends;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine\Wwise\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -68,6 +71,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,6 +81,7 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine;C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine\Wwise\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -183,6 +188,14 @@
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ComponentTransform.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFileHelpersBase.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookDeferred.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkFileHelpers.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkFilePackageLowLevelIOBlocking.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkFilePackageLowLevelIODeferred.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -257,6 +270,10 @@
     <ClCompile Include="SceneWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
