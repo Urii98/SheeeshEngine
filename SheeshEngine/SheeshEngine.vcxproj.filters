@@ -662,6 +662,9 @@
     <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Externals\Wwise</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleAudio.cpp">
+      <Filter>Sources\Modules\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl">

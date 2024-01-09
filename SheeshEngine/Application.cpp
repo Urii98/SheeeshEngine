@@ -12,12 +12,14 @@ Application::Application()
 	textures = new ModuleTexture(this);
 	scene = new ModuleScene(this);
 	hierarchy = new ModuleHierarchy(this);
+	audio = new ModuleAudio(this);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
 	// Main Modules
 	AddModule(window);
+	AddModule(audio);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(hierarchy);
