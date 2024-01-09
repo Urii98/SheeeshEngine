@@ -41,7 +41,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)ImGui;$(ProjectDir)ImGui\backends;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ImGui;$(ProjectDir)ImGui\backends;C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine\Wwise\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine\Wwise\include;$(IncludePath)</IncludePath>
@@ -53,13 +53,15 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);AkMemoryMgr.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkSpatialAudio.lib;AkStreamMgr.lib;AkRoomVerbFX.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine;C:\Users\PcCom\Documents\GitHub\SheeeshEngine\SheeshEngine\Wwise\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -190,6 +192,11 @@
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkDefaultLowLevelIODispatcher.h" />
     <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFileHelpersBase.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFileLocationBase.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFilePackage.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkFilePackageLUT.h" />
+    <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkMultipleFileLocation.h" />
     <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.h" />
     <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookDeferred.h" />
     <ClInclude Include="Wwise\include\AK\SoundEngine\Win32\AkFileHelpers.h" />
@@ -271,6 +278,10 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkFileLocationBase.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkFilePackage.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkMultipleFileLocation.cpp" />
     <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
     <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp" />
     <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\stdafx.cpp" />
@@ -282,6 +293,7 @@
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\include\Math\Matrix.inl" />
+    <None Include="Wwise\include\AK\SoundEngine\Common\AkFilePackageLowLevelIO.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
