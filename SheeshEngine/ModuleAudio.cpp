@@ -188,33 +188,60 @@ void ModuleAudio::SetListenerPos(GameObject* listener, unsigned int id)
 {
 	float3 position = listener->GetTransformComponent()->position;
 
+	if (listener->name != "MainCamera")
+	{
+		LOG("position x %f", position.x);
+		LOG("id %i", id);
+
+	}
+	else
+	{
+		LOG("Camera position x %f", position.x);
+		LOG("Camera id %i", id);
+	}
+
+	/*LOG(listener->name.c_str());*/
+
 	AkSoundPosition listenerPosition;
 	listenerPosition.SetOrientation({ 0,0,-1 }, { 0,1,0 });
 	listenerPosition.SetPosition(position.x, position.y, position.z);
 
 	//AK::SoundEngine::SetPosition(id, listenerPosition);
 
-	AKSOUNDENGINE_API AKRESULT result = AK::SoundEngine::SetPosition(id, listenerPosition);
+	if (id != 5)
+	{
+		for (int i = 0; i < 200; i++)
+		{
+			if (i == 5)
+				continue;
+			AKSOUNDENGINE_API AKRESULT result = AK::SoundEngine::SetPosition(i, listenerPosition);
 
-	if (result == AK_Success)
-	{
-		// La operación fue exitosa
-		// Aquí puedes poner código adicional para manejar un resultado exitoso
-		// Por ejemplo, imprimir un mensaje de confirmación
-		std::cout << "SetPosition exitoso." << std::endl;
+			if (result == AK_Success)
+			{
+				// La operación fue exitosa
+				// Aquí puedes poner código adicional para manejar un resultado exitoso
+				// Por ejemplo, imprimir un mensaje de confirmación
+				std::cout << "SetPosition exitoso." << std::endl;
+			}
+			else if (result == AK_InvalidParameter)
+			{
+				// Hubo un error debido a parámetros inválidos
+				// Manejar este error específico aquí
+				std::cerr << "Error en SetPosition: Parámetro inválido." << std::endl;
+			}
+			// Puedes agregar más casos para otros valores de AKRESULT según sea necesario
+			else
+			{
+				// Manejar otros tipos de errores
+				std::cerr << "Error en SetPosition: Código de error desconocido." << std::endl;
+			}
+		}
 	}
-    else if (result == AK_InvalidParameter)
-	{
-		// Hubo un error debido a parámetros inválidos
-		// Manejar este error específico aquí
-		std::cerr << "Error en SetPosition: Parámetro inválido." << std::endl;
-	}
-	// Puedes agregar más casos para otros valores de AKRESULT según sea necesario
-	else
-	{
-		// Manejar otros tipos de errores
-		std::cerr << "Error en SetPosition: Código de error desconocido." << std::endl;
-	}
+	
+
+	
+
+	
 }
 
 void ModuleAudio::PostEvent(const char* event, unsigned int id)

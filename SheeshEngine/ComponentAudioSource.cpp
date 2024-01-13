@@ -34,18 +34,12 @@ ComponentAudioSource::~ComponentAudioSource()
 	App->audio->UnregisterGameObject(sourceID);
 }
 
-bool ComponentAudioSource::Update(float dt)
+void ComponentAudioSource::Update()
 {
-	//float3 position = transform->getPosition();
-	//AkSoundPosition audioSourcePos;
-	//audioSourcePos.SetPosition(position.x, position.y, position.z);
-	//float3 orientation = transform->getRotation();
-	////audioSourcePos.SetOrientation({orientation.x, orientation.y, orientation.z}, { orientation.x, orientation.y, orientation.z });
-	/*audioSourcePos.SetOrientation({ 0, 0, -1 }, { 0,1,0 });*/
-	App->audio->SetListenerPos(mOwner,sourceID);
-	//DEBUG_LOG("Source: x %f, y %f, z %f", position.x, position.y, position.z);
-	return true;
+	App->audio->SetListenerPos(mOwner, sourceID);
 }
+
+
 
 void ComponentAudioSource::PrintInspector()
 {

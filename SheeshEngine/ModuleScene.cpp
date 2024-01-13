@@ -33,8 +33,8 @@ bool ModuleScene::Start() {
    App->assimpMeshes->LoadFile("Assets/Models/BakerHouse.fbx");
    street=App->assimpMeshes->LoadFile("Assets/Models/scene.DAE");
 
-   ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
-   background->AddComponent(backgroundsource);
+   //ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
+   //background->AddComponent(backgroundsource);
 
    AkAuxSendValue aEnvs[1];
 

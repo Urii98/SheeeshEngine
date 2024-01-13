@@ -21,7 +21,7 @@ public:
 	ComponentAudioSource(GameObject* gameObject);
 	~ComponentAudioSource();
 
-	bool Update(float dt);
+	void Update() override;
 
 	GameObject* SourceGameObject;
 	uint sourceID;

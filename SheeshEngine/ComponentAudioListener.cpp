@@ -8,10 +8,7 @@
 
 class ComponentTransform;
 
-ComponentAudioListener::ComponentAudioListener() : Component(nullptr)
-{
-	type = ComponentType::AUDIOLISTENER;
-}
+
 
 
 ComponentAudioListener::ComponentAudioListener(GameObject* owner) : Component(owner)
@@ -22,7 +19,7 @@ ComponentAudioListener::ComponentAudioListener(GameObject* owner) : Component(ow
 	ListenerGameObject = mOwner;
 	listenerID =audioID;
 	App->audio->RegisterGameObject(listenerID);
-	App->audio->SetDefaultListener(listenerID);
+	/*App->audio->SetDefaultListener(listenerID);*/
 	
 	LOG("AAAAAAA %d", audioID);
 }

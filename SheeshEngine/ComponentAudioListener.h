@@ -14,7 +14,7 @@ using namespace std;
 class ComponentAudioListener : public Component
 {
 public:
-	ComponentAudioListener();
+	
 	ComponentAudioListener(GameObject* owner);
 	~ComponentAudioListener();
 
