@@ -426,6 +426,12 @@
     <ClInclude Include="ComponentAudioListener.h">
       <Filter>Sources\GameObject\Header</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentAudioSource.h">
+      <Filter>Sources\GameObject\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEvent.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -673,6 +679,12 @@
     </ClCompile>
     <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>Sources\GameObject\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudioSource.cpp">
+      <Filter>Sources\GameObject\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEvent.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

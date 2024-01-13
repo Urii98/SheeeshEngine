@@ -1,15 +1,24 @@
 #include "Component.h"
 
+int audioCounter = 0;
+
+
+
 Component::Component(GameObject* owner)
 {
-	type = ComponentType::NONE;
+    type = ComponentType::NONE;
 
-	isActive = false;
+    isActive = false;
 
-	this->mOwner = owner;
+    this->mOwner = owner;
 
+     
+    this->audioID = audioCounter;
+    
+    audioCounter++;
 
 }
+
 
 Component::~Component()
 {
@@ -26,5 +35,3 @@ void Component::PrintInspector() {}
 void Component::EnableComponent() {}
 
 void Component::DisableComponent() {}
-
-

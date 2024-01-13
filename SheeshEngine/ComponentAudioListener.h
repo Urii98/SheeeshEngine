@@ -19,7 +19,7 @@ public:
 	~ComponentAudioListener();
 
 	void Update() override;
-
-	void PrintGui();
+	bool activeListener;
+	void PrintInspector();
 
 };

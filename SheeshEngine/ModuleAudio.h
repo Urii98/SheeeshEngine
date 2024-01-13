@@ -2,7 +2,7 @@
 
 #include "Module.h"
 #include "Globals.h"
-//#include "AudioEvent.h"
+#include "AudioEvent.h"
 
 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>

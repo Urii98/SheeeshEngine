@@ -6,6 +6,7 @@
 //#include "TextureLoader.h"
 #include "GameObject.h"
 #include "ComponentCamera.h"
+#include"ComponentTransform.h"
 
 #include <string>
 
@@ -183,11 +184,11 @@ void ModuleAudio::SetRTPCValue(const char* event, float volume, uint id)
 
 void ModuleAudio::SetListenerPos(GameObject* listener, unsigned int id)
 {
-	//float3 position = listener->transform->transform.position;
+	float3 position = listener->GetTransformComponent()->position;
 
 	AkSoundPosition listenerPosition;
 	listenerPosition.SetOrientation({ 0,0,-1 }, { 0,1,0 });
-	//listenerPosition.SetPosition(position.x, position.y, position.z);
+	listenerPosition.SetPosition(position.x, position.y, position.z);
 
 	AK::SoundEngine::SetPosition(id, listenerPosition);
 }
@@ -235,7 +236,7 @@ void ModuleAudio::ResumeEvent(const char* event, unsigned int id)
 
 void ModuleAudio::GetAudioInfo()
 {
-	std::ifstream file("Game/Assets/Wwise/Wwise_IDs.h");
+	std::ifstream file("Assets/Wwise/Wwise_IDs.h");
 	
 
 	std::string line;
