@@ -34,8 +34,8 @@ class AudioEvent;
 
 struct WwiseData
 {
-    /*std::vector<std::string> events;
-    std::vector<std::string> banks;*/
+    std::vector<std::string> events;
+    std::vector<std::string> banks;
 };
 
 class ModuleAudio : public Module

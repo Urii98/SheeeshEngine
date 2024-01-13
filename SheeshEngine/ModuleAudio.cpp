@@ -235,7 +235,8 @@ void ModuleAudio::ResumeEvent(const char* event, unsigned int id)
 
 void ModuleAudio::GetAudioInfo()
 {
-	/*std::ifstream file("Assets/Wwise/Wwise_IDs.h");
+	std::ifstream file("Game/Assets/Wwise/Wwise_IDs.h");
+	
 
 	std::string line;
 
@@ -275,5 +276,5 @@ void ModuleAudio::GetAudioInfo()
 				}
 			}
 		}
-	}*/
+	}
 }
