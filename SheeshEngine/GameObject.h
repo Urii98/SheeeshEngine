@@ -11,6 +11,7 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
+class ComponentAudioListener;
 class GameObject
 {
 public:

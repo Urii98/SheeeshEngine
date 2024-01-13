@@ -423,6 +423,9 @@
     <ClInclude Include="Wwise\include\AK\SoundEngine\Common\AkMultipleFileLocation.h">
       <Filter>Externals\Wwise</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentAudioListener.h">
+      <Filter>Sources\GameObject\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -667,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkMultipleFileLocation.cpp">
       <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudioListener.cpp">
+      <Filter>Sources\GameObject\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
