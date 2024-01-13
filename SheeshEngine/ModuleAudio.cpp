@@ -144,6 +144,55 @@ bool ModuleAudio::InitSoundEngine()
 	return true;
 }
 
+void ModuleAudio::AddReverbZone(ComponentReverbAudio* reverbZone)
+{
+	reverbZones.push_back(reverbZone);
+}
+
+void ModuleAudio::DeleteReverbZone(ComponentReverbAudio* reverbZone)
+{
+	std::vector<ComponentReverbAudio*>::iterator iterator = reverbZones.begin();
+
+	for (; iterator != reverbZones.end(); ++iterator)
+	{
+		if (*iterator == reverbZone)
+		{
+			reverbZones.erase(iterator);
+			break;
+		}
+	}
+}
+
+void ModuleAudio::CheckReverbGameObject(unsigned int UUID)
+{
+	AkAuxSendValue aEnvs;
+	for (int i = 0; i < reverbZones.size(); ++i)
+	{
+		if (reverbZones[i]->GetReverbZoneAABB().Contains(currentListenerPosition->GetPosition()))
+		{
+			aEnvs.listenerID = AK_INVALID_GAME_OBJECT;
+			aEnvs.auxBusID = AK::SoundEngine::GetIDFromString(reverbZones[i]->GetReverbBusName().c_str());
+			aEnvs.fControlValue = 1.5f;
+
+			if (AK::SoundEngine::SetGameObjectAuxSendValues(UUID, &aEnvs, 1) != AK_Success)
+			{
+				LOG("Couldnt set aux send values");
+			}
+		}
+		else
+		{
+			aEnvs.listenerID = AK_INVALID_GAME_OBJECT;
+			aEnvs.auxBusID = AK::SoundEngine::GetIDFromString(L"Master Audio Bus");
+			aEnvs.fControlValue = 1.0f;
+
+			if (AK::SoundEngine::SetGameObjectAuxSendValues(UUID, &aEnvs, 1) != AK_Success)
+			{
+				LOG("Couldnt set aux send values");
+			}
+		}
+	}
+}
+
 void ModuleAudio::ProcessAudio()
 {
 	// Process bank requests, events, positions, RTPC, etc.
@@ -165,6 +214,7 @@ void ModuleAudio::UnregisterGameObject(unsigned int id)
 void ModuleAudio::SetDefaultListener(const AkGameObjectID id)
 {
 	AK::SoundEngine::SetDefaultListeners(&id, MAX_LISTENERS);
+	currentListenerPosition = listenerPosition;
 }
 
 void ModuleAudio::RemoveDefaultListener(const AkGameObjectID id)

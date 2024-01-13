@@ -3,6 +3,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "AudioEvent.h"
+#include "ComponentReverbAudio.h"
 
 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -29,6 +30,7 @@
 #define MAX_LISTENERS 1
 
 class AudioEvent;
+class ComponentTransform;
 
 
 struct WwiseData
@@ -52,6 +54,12 @@ public:
 
     bool InitSoundEngine();
 
+    void AddReverbZone(ComponentReverbAudio* reverbZone);
+
+    void DeleteReverbZone(ComponentReverbAudio* reverbZone);
+
+    void CheckReverbGameObject(unsigned int UUID);
+
     void ProcessAudio();
 
     void RegisterGameObject(unsigned int id);
@@ -73,6 +81,10 @@ public:
     void GetAudioInfo();
 
     WwiseData wwiseData;
+
+    std::vector<ComponentReverbAudio*> reverbZones;
+
+    ComponentTransform* currentListenerPosition;
 
 private:
     CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
