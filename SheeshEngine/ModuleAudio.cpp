@@ -135,9 +135,9 @@ bool ModuleAudio::InitSoundEngine()
 		LOG("Couldn't find the bank: Init.bnk");
 		return false;
 	}
-	if (AK::SoundEngine::LoadBank(L"Main.bnk", bankID) != AK_Success)
+	if (AK::SoundEngine::LoadBank(L"ragnarEngine.bnk", bankID) != AK_Success)
 	{
-		LOG("Couldn't find the bank: Main.bnk");
+		LOG("Couldn't find the bank: ragnarEngine.bnk");
 		return false;
 	}
 
@@ -210,31 +210,12 @@ void ModuleAudio::SetListenerPos(GameObject* listener, unsigned int id)
 
 	if (id != 5)
 	{
-		for (int i = 0; i < 200; i++)
+		for (int i = 0; i < 105; i++)
 		{
 			if (i == 5)
 				continue;
 			AKSOUNDENGINE_API AKRESULT result = AK::SoundEngine::SetPosition(i, listenerPosition);
 
-			if (result == AK_Success)
-			{
-				// La operación fue exitosa
-				// Aquí puedes poner código adicional para manejar un resultado exitoso
-				// Por ejemplo, imprimir un mensaje de confirmación
-				std::cout << "SetPosition exitoso." << std::endl;
-			}
-			else if (result == AK_InvalidParameter)
-			{
-				// Hubo un error debido a parámetros inválidos
-				// Manejar este error específico aquí
-				std::cerr << "Error en SetPosition: Parámetro inválido." << std::endl;
-			}
-			// Puedes agregar más casos para otros valores de AKRESULT según sea necesario
-			else
-			{
-				// Manejar otros tipos de errores
-				std::cerr << "Error en SetPosition: Código de error desconocido." << std::endl;
-			}
 		}
 	}
 	
