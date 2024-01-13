@@ -95,6 +95,7 @@
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentReverbAudio.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="glmath.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentReverbAudio.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="glmath.cpp" />

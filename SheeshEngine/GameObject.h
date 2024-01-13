@@ -13,6 +13,7 @@ class ComponentMaterial;
 class ComponentCamera;
 class ComponentAudioListener;
 class ComponentAudioSource;
+class ComponentReverbAudio;
 class GameObject
 {
 public:
@@ -43,6 +44,8 @@ public:
 	ComponentAudioListener* GetComponentAudio();
 
 	ComponentAudioSource* GetComponentAudioSource();
+
+	ComponentReverbAudio* GetComponentReverbAudio();
 
 
 	void SetPendingToDelete(bool deleteGO) { isTimetoDelete = deleteGO; };

@@ -7,7 +7,8 @@ enum class ComponentType
     MATERIAL,
     CAMERA,
     AUDIOLISTENER,
-    AUDIOSOURCE
+    AUDIOSOURCE,
+    AUDIOREBERV
 
 };
 

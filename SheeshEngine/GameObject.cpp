@@ -6,6 +6,7 @@
 #include"ComponentCamera.h"
 #include"ComponentAudioListener.h"
 #include"ComponentAudioSource.h"
+#include"ComponentReverbAudio.h"
 
 #include "OurPrimitive.h"
 
@@ -165,6 +166,17 @@ ComponentAudioSource* GameObject::GetComponentAudioSource()
 	}
 	return nullptr;
 }
+ComponentReverbAudio* GameObject::GetComponentReverbAudio()
+{
+	for (size_t i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i]->type == ComponentType::AUDIOREBERV) {
+
+			return (ComponentReverbAudio*)mComponents[i];
+		}
+	}
+	return nullptr;
+}
 
 
 bool GameObject::CheckChildOf(GameObject* parent)
@@ -233,7 +245,7 @@ void GameObject::PrintInspector()
 {
 
 
-	char* listComponenets[]{ "Add Component", "Mesh Component", "Texture Component","Camera Component", "AudioListener Component", "AudioSource Component"};
+	char* listComponenets[]{ "Add Component", "Mesh Component", "Texture Component","Camera Component", "AudioListener Component", "AudioSource Component", "AudioReverb Component"};
 	char aux[255] = { ' ' }; 
 
 
@@ -328,6 +340,15 @@ void GameObject::PrintInspector()
 						LOG("Audio source Component already added, can't duplicate.")
 					}
 					break;
+				//case 6:
+				//	if (GetComponentReverbAudio() == nullptr) {
+				//		ComponentReverbAudio* compAudioSource = new ComponentReverbAudio(this);
+				//		AddComponent(compAudioSource);
+				//	}
+				//	else {
+				//		LOG("Audio source Component already added, can't duplicate.")
+				//	}
+				//	break;
 			}
 				componentNum = 0;
 		}

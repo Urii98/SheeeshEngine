@@ -28,6 +28,7 @@ public:
 	void PrintInspector();
 
 	float volume;
+	float reverb;
 	bool isPlaying = false;
 	bool nothingSelected = false;
 	std::string audioClip;

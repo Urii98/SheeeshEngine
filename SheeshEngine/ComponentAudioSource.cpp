@@ -16,6 +16,9 @@ ComponentAudioSource::ComponentAudioSource(GameObject* owner) : Component(owner)
 	SourceGameObject = owner;
 	sourceID = audioID;
 
+	reverb = 0.0f;
+	volume = 50.0f;
+
 	events = App->audio->wwiseData.events;
 	type = ComponentType::AUDIOSOURCE;
 	App->audio->RegisterGameObject(sourceID);

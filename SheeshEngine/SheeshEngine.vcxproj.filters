@@ -432,6 +432,9 @@
     <ClInclude Include="AudioEvent.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentReverbAudio.h">
+      <Filter>Sources\GameObject\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -685,6 +688,9 @@
     </ClCompile>
     <ClCompile Include="AudioEvent.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentReverbAudio.cpp">
+      <Filter>Sources\GameObject\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
