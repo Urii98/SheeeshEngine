@@ -5,12 +5,14 @@
 #include "GameObject.h"
 //#include "MeshLoader.h"
 #include "AudioEvent.h"
+#include "ComponentTransform.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 class AudioEvent;
+
 
 class ComponentAudioSource : public Component
 {
@@ -19,9 +21,11 @@ public:
 	ComponentAudioSource(GameObject* gameObject);
 	~ComponentAudioSource();
 
+	bool Update(float dt);
+
 	GameObject* SourceGameObject;
 	uint sourceID;
-
+	ComponentTransform* transform;
 	std::vector<std::string> events = App->audio->wwiseData.events;
 
 

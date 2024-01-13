@@ -40,11 +40,16 @@ bool ModuleCamera3D::Start()
 	gameCamera = new GameObject(App->scene->root);
 	gameCamera->name = "MainCamera";
 	ComponentCamera* cc = new ComponentCamera();
-	ComponentAudioListener* audioListener = new ComponentAudioListener();
+	ComponentAudioListener* audioListener = new ComponentAudioListener(gameCamera);
+	gameCamera->AddComponent(audioListener);
 	gameCamera->AddComponent(cc);
-	
+	App->audio->SetDefaultListener(audioListener->listenerID);
 	gameCamera->transform->setPosition(float3(-1, 2, -10));
 
+	/*AkReal32 fObstruction = 0.05f;
+	AkReal32 fOcclusion = 0.0f;
+
+	AK::SoundEngine::SetObjectObstructionAndOcclusion(audioListener->listenerID, audioListener->listenerID, fObstruction, fOcclusion);*/
 
 	return ret;
 }

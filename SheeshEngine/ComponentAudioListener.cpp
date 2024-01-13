@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "GameObject.h"
 #include "Component.h"
+#include"ComponentTransform.h"
 #include "ComponentAudioListener.h"
 
 class ComponentTransform;
@@ -23,7 +24,6 @@ ComponentAudioListener::ComponentAudioListener(GameObject* owner) : Component(ow
 	App->audio->RegisterGameObject(listenerID);
 	App->audio->SetDefaultListener(listenerID);
 	
-	ComponentTransform* transform;
 	LOG("AAAAAAA %d", audioID);
 }
 
@@ -34,6 +34,7 @@ ComponentAudioListener::~ComponentAudioListener()
 void ComponentAudioListener::Update()
 {
 	App->audio->SetListenerPos(ListenerGameObject, listenerID);
+
 }
 
 void ComponentAudioListener::PrintInspector()

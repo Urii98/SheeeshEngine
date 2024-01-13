@@ -19,6 +19,7 @@ public:
 	~ComponentAudioListener();
 
 	void Update() override;
+	ComponentTransform* transform;
 	bool activeListener;
 	GameObject* ListenerGameObject;
 	unsigned int listenerID;

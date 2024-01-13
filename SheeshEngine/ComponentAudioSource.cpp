@@ -5,6 +5,7 @@
 #include "Component.h"
 #include "ComponentAudioSource.h"
 
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -31,6 +32,19 @@ ComponentAudioSource::~ComponentAudioSource()
 	App->audio->StopEvent(audioClip.c_str(), sourceID);
 	isPlaying = false;
 	App->audio->UnregisterGameObject(sourceID);
+}
+
+bool ComponentAudioSource::Update(float dt)
+{
+	//float3 position = transform->getPosition();
+	//AkSoundPosition audioSourcePos;
+	//audioSourcePos.SetPosition(position.x, position.y, position.z);
+	//float3 orientation = transform->getRotation();
+	////audioSourcePos.SetOrientation({orientation.x, orientation.y, orientation.z}, { orientation.x, orientation.y, orientation.z });
+	/*audioSourcePos.SetOrientation({ 0, 0, -1 }, { 0,1,0 });*/
+	App->audio->SetListenerPos(mOwner,sourceID);
+	//DEBUG_LOG("Source: x %f, y %f, z %f", position.x, position.y, position.z);
+	return true;
 }
 
 void ComponentAudioSource::PrintInspector()

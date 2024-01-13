@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include"ComponentAudioSource.h"
+
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -18,6 +20,8 @@ bool ModuleScene::Init()
 {
     root = new GameObject(nullptr);
     root->name = ("Scene");
+    background = new GameObject(root);
+    background->name = ("Scene");
     jsonFile.FileToValue("scene.json");
     return false;
 }
@@ -29,8 +33,14 @@ bool ModuleScene::Start() {
    App->assimpMeshes->LoadFile("Assets/Models/BakerHouse.fbx");
    street=App->assimpMeshes->LoadFile("Assets/Models/scene.DAE");
 
+   ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
+   background->AddComponent(backgroundsource);
+
+   AkAuxSendValue aEnvs[1];
+
    street->transform->rotation.x = -90;
    street->transform->calculateMatrix();
+
 
 
     return true;
