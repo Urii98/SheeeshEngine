@@ -22,7 +22,7 @@ ComponentAudioSource::ComponentAudioSource(GameObject* owner) : Component(owner)
 
 	audioClip = events[0];
 	App->audio->PostEvent(audioClip.c_str(), sourceID);
-	isPlaying = true;
+	isPlaying = false;
 	LOG("AAAAAAA %d", sourceID);
 }
 
@@ -31,6 +31,12 @@ ComponentAudioSource::~ComponentAudioSource()
 	App->audio->StopEvent(audioClip.c_str(), sourceID);
 	isPlaying = false;
 	App->audio->UnregisterGameObject(sourceID);
+}
+
+void ComponentAudioSource::Update()
+{
+
+	App->audio->SetListenerPos(SourceGameObject, sourceID);
 }
 
 void ComponentAudioSource::PrintInspector()

@@ -24,7 +24,7 @@ public:
 
 	std::vector<std::string> events = App->audio->wwiseData.events;
 
-
+	void Update() override;
 	void PrintInspector();
 
 	float volume;

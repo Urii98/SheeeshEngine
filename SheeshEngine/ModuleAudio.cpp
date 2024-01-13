@@ -134,7 +134,7 @@ bool ModuleAudio::InitSoundEngine()
 		LOG("Couldn't find the bank: Init.bnk");
 		return false;
 	}
-	if (AK::SoundEngine::LoadBank(L"Main.bnk", bankID) != AK_Success)
+	if (AK::SoundEngine::LoadBank(L"ragnarEngine.bnk", bankID) != AK_Success)
 	{
 		LOG("Couldn't find the bank: Main.bnk");
 		return false;

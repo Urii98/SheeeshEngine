@@ -41,6 +41,7 @@ bool ModuleCamera3D::Start()
 	gameCamera->name = "MainCamera";
 	ComponentCamera* cc = new ComponentCamera();
 	ComponentAudioListener* audioListener = new ComponentAudioListener();
+	gameCamera->AddComponent(audioListener);
 	gameCamera->AddComponent(cc);
 	
 	gameCamera->transform->setPosition(float3(-1, 2, -10));
