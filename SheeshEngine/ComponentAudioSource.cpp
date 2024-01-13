@@ -28,6 +28,8 @@ ComponentAudioSource::ComponentAudioSource(GameObject* owner) : Component(owner)
 
 ComponentAudioSource::~ComponentAudioSource()
 {
+	App->audio->StopEvent(audioClip.c_str(), sourceID);
+	isPlaying = false;
 	App->audio->UnregisterGameObject(sourceID);
 }
 
@@ -63,7 +65,9 @@ void ComponentAudioSource::PrintInspector()
 		ImGui::SameLine();
 		if (ImGui::SliderFloat("##Volume", &volume, 0.0f, 100.0f))
 		{
-			App->audio->SetRTPCValue("Volume", volume, sourceID);
+			/*App->audio->SetRTPCValue("Volume", volume, sourceID);*/
+
+			AK::SoundEngine::SetRTPCValue("Volume", volume, sourceID);
 		}
 		if (ImGui::Button("Play"))
 		{

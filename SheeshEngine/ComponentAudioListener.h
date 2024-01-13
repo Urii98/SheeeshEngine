@@ -20,6 +20,8 @@ public:
 
 	void Update() override;
 	bool activeListener;
+	GameObject* ListenerGameObject;
+	unsigned int listenerID;
 	void PrintInspector();
 
 };

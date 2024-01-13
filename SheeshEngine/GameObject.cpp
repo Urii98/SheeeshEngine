@@ -68,7 +68,7 @@ GameObject::GameObject(GameObject* parent)
 void GameObject::AddComponent(Component* component)
 {
 	mComponents.push_back(component);
-	componentNum++;
+	
 	component->mOwner = this;
 }
 
