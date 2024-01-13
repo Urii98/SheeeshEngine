@@ -37,8 +37,11 @@ bool ModuleScene::Start() {
 
    ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
    background->AddComponent(backgroundsource);
-   
 
+   
+   for (int i = 0; i < backgroundsource->events.size(); i++) {
+       App->audio->StopEvent(backgroundsource->events[i].c_str(), backgroundsource->sourceID);
+   }
 
     return true;
 }

@@ -40,7 +40,7 @@ bool ModuleCamera3D::Start()
 	gameCamera = new GameObject(App->scene->root);
 	gameCamera->name = "MainCamera";
 	ComponentCamera* cc = new ComponentCamera();
-	ComponentAudioListener* audioListener = new ComponentAudioListener();
+	ComponentAudioListener* audioListener = new ComponentAudioListener(gameCamera);
 	gameCamera->AddComponent(audioListener);
 	gameCamera->AddComponent(cc);
 	
