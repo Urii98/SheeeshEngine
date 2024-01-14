@@ -22,7 +22,7 @@ public:
 	GameObject* SourceGameObject;
 	uint sourceID;
 
-	std::vector<std::string> events = App->audio->wwiseData.events;
+	std::vector<std::string> events;
 
 	void Update() override;
 	void PrintInspector();

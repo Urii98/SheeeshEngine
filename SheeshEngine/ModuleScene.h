@@ -21,7 +21,9 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* root = nullptr;
 	GameObject* street;
-	GameObject* background;
+	GameObject* AudioSource;
+	GameObject* gameObject;
+	float f;
 
 
 	void SaveSceneRequest() { saveSceneRequest = true; }

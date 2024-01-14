@@ -19,9 +19,10 @@ bool ModuleScene::Init()
 {
     root = new GameObject(nullptr);
     root->name = ("Scene");
-    background = new GameObject(root);
-    background->name = ("Background");
+  
+    
     jsonFile.FileToValue("scene.json");
+
     return false;
 }
 
@@ -31,17 +32,21 @@ bool ModuleScene::Start() {
     //Load Baker House
    App->assimpMeshes->LoadFile("Assets/Models/BakerHouse.fbx");
    street=App->assimpMeshes->LoadFile("Assets/Models/scene.DAE");
+   
+  
+
 
    street->transform->rotation.x = -90;
    street->transform->calculateMatrix();
 
-   ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
-   background->AddComponent(backgroundsource);
+   AudioSource= App->assimpMeshes->LoadFile("Assets/Models/cube.fbx");
+   AudioSource->name = ("AudioSource");
+
+   ComponentAudioSource* backgroundsource = new ComponentAudioSource(AudioSource);
+   AudioSource->AddComponent(backgroundsource);
 
    
-   for (int i = 0; i < backgroundsource->events.size(); i++) {
-       App->audio->StopEvent(backgroundsource->events[i].c_str(), backgroundsource->sourceID);
-   }
+
 
     return true;
 }
@@ -59,6 +64,26 @@ update_status ModuleScene::Update(float dt) {
     if (App->input->GetKey(SDL_SCANCODE_W)) App->camera->operation = ImGuizmo::OPERATION::TRANSLATE;
     else if (App->input->GetKey(SDL_SCANCODE_E)) App->camera->operation = ImGuizmo::OPERATION::ROTATE;
     else if (App->input->GetKey(SDL_SCANCODE_R)) App->camera->operation = ImGuizmo::OPERATION::SCALE;
+    f = 0.8f;
+    if (App->gameState == GameState::PLAY) {
+
+        if (f > 0.03f) {
+            // Increment the x position of spatialAudioSource by 0.1 units per frame
+            AudioSource->transform->position.x += 0.1f;
+
+            // Check if spatialAudioSource's x position is greater than 10
+            if (AudioSource->transform->position.x > 10.0f) {
+                // If it's greater than 10, reset it to -10
+                AudioSource->transform->position.x = -10.0f;
+            }
+
+            // Update the transformation matrix
+            AudioSource->transform->calculateMatrix();
+
+            f = 0.0f;
+        }
+
+    }
     return UPDATE_CONTINUE;
 }
 
