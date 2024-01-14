@@ -24,6 +24,10 @@ Sheeesh Engine is a 3D game engine made by two students from CITM-UPC Terrassa, 
 
 ### Features
 
+#### Audio System
+-  Implement two backgrounds music tracks blend between each other in a loop
+-  Static and moving gameobject (automatic or with keys) with spatial audio source
+
 #### Inspector
 The user should can use the inspector to modify a GameObject:
 - Hierarchy: delete, reparent, create empty and create children
