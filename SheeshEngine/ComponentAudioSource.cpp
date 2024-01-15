@@ -68,7 +68,7 @@ void ComponentAudioSource::PrintInspector()
 			ImGui::EndCombo();
 		}
 
-		ImGui::Text("Volume (Doesn't work)");
+		ImGui::Text("Volume");
 		ImGui::SameLine();
 		if (ImGui::SliderFloat("##Volume", &volume, 0.0f, 100.0f))
 		{
