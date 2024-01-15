@@ -21,7 +21,6 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* root = nullptr;
 	GameObject* street;
-	GameObject* background;
 
 
 	void SaveSceneRequest() { saveSceneRequest = true; }

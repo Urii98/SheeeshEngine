@@ -3,7 +3,7 @@
 #include "ComponentMaterial.h"
 #include <string>
 
-ComponentMaterial::ComponentMaterial() :	Component(nullptr)
+ComponentMaterial::ComponentMaterial() : Component(nullptr)
 {
 	type = ComponentType::MATERIAL;
 }

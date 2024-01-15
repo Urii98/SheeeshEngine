@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
-#include"ComponentAudioSource.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -19,8 +18,6 @@ bool ModuleScene::Init()
 {
     root = new GameObject(nullptr);
     root->name = ("Scene");
-    background = new GameObject(root);
-    background->name = ("Background");
     jsonFile.FileToValue("scene.json");
     return false;
 }
@@ -35,13 +32,6 @@ bool ModuleScene::Start() {
    street->transform->rotation.x = -90;
    street->transform->calculateMatrix();
 
-   ComponentAudioSource* backgroundsource = new ComponentAudioSource(background);
-   background->AddComponent(backgroundsource);
-
-   
-   for (int i = 0; i < backgroundsource->events.size(); i++) {
-       App->audio->StopEvent(backgroundsource->events[i].c_str(), backgroundsource->sourceID);
-   }
 
     return true;
 }

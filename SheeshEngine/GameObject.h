@@ -11,8 +11,6 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
-class ComponentAudioListener;
-class ComponentAudioSource;
 class GameObject
 {
 public:
@@ -40,17 +38,12 @@ public:
 
 	ComponentCamera* GetComponentCamera();
 
-	ComponentAudioListener* GetComponentAudio();
-
-	ComponentAudioSource* GetComponentAudioSource();
-
 
 	void SetPendingToDelete(bool deleteGO) { isTimetoDelete = deleteGO; };
 
 	bool isTimetoDelete;
 	bool isActive;
 	std::string name;
-	int componentNum;
 
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;

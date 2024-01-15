@@ -11,7 +11,6 @@
 #include "ModuleAssimpMeshes.h"
 #include "ModuleTexture.h"
 #include "ModuleScene.h"
-#include "ModuleAudio.h"
 #include"ModuleHierarchy.h"
 #include "JsonParser.h"
 
@@ -36,7 +35,6 @@ public:
 	ModuleTexture* textures;
 	ModuleScene* scene;
 	ModuleHierarchy* hierarchy;
-	ModuleAudio* audio;
 
 private:
 
