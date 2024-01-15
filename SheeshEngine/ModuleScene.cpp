@@ -65,25 +65,27 @@ update_status ModuleScene::Update(float dt) {
     else if (App->input->GetKey(SDL_SCANCODE_E)) App->camera->operation = ImGuizmo::OPERATION::ROTATE;
     else if (App->input->GetKey(SDL_SCANCODE_R)) App->camera->operation = ImGuizmo::OPERATION::SCALE;
     f = 0.8f;
-    if (App->gameState == GameState::PLAY) {
+    
 
         if (f > 0.03f) {
-            // Increment the x position of spatialAudioSource by 0.1 units per frame
-            AudioSource->transform->position.x += 0.1f;
+            if (AudioSource->transform != nullptr)
+            {
+                // Spatial Audio Cube Movement
+                if (f > 0.03f) {
+                    AudioSource->transform->position.x += 3*dt;
 
-            // Check if spatialAudioSource's x position is greater than 10
-            if (AudioSource->transform->position.x > 10.0f) {
-                // If it's greater than 10, reset it to -10
-                AudioSource->transform->position.x = -10.0f;
+                    if (AudioSource->transform->position.x > 10.0f) {
+                        AudioSource->transform->position.x = -10.0f;
+                    }
+
+                    AudioSource->transform->calculateMatrix();
+
+                    f = 0.0f;
+                }
             }
-
-            // Update the transformation matrix
-            AudioSource->transform->calculateMatrix();
-
-            f = 0.0f;
         }
 
-    }
+    
     return UPDATE_CONTINUE;
 }
 
