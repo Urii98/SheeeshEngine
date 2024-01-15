@@ -4,6 +4,7 @@
 #include "MathGeoLib/include/Math/Quat.h"
 #include "MathGeoLib/include/Math/float3.h"
 #include "ComponentTransform.h"
+#include "ComponentAudioListener.h"
 #include "ComponentCamera.h"
 #include"GameWindow.h"
 #include "SceneWindow.h"
@@ -39,6 +40,8 @@ bool ModuleCamera3D::Start()
 	gameCamera = new GameObject(App->scene->root);
 	gameCamera->name = "MainCamera";
 	ComponentCamera* cc = new ComponentCamera();
+	ComponentAudioListener* audioListener = new ComponentAudioListener(gameCamera);
+	gameCamera->AddComponent(audioListener);
 	gameCamera->AddComponent(cc);
 	
 	gameCamera->transform->setPosition(float3(-1, 2, -10));

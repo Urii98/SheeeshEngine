@@ -1,32 +1,35 @@
 #pragma once
 enum class ComponentType
 {
-	NONE, 
-	TRANSFORM,
-	MESH,
-	MATERIAL,
-	CAMERA,
+    NONE,
+    TRANSFORM,
+    MESH,
+    MATERIAL,
+    CAMERA,
+    AUDIOLISTENER,
+    AUDIOSOURCE
 
 };
 
 class GameObject;
 
 class Component {
-	
+
 public:
-	Component(GameObject* owner);
-	virtual ~Component();
+    Component(GameObject* owner);
+    Component(GameObject* owner, int id);
+    virtual ~Component();
 
-	virtual void PrintInspector();
-	virtual void Update();
+    virtual void PrintInspector();
+    virtual void Update();
 
-	void EnableComponent();
-	void DisableComponent();
-	
-	ComponentType type;
-	bool isActive;
+    void EnableComponent();
+    void DisableComponent();
 
-	GameObject*	mOwner;
+    ComponentType type;
+    bool isActive;
 
-	
- };
+    GameObject* mOwner;
+    int audioID;
+
+};
