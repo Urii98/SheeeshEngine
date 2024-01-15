@@ -2,11 +2,6 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
-#include"ComponentMaterial.h"
-#include"ComponentCamera.h"
-#include"ComponentAudioListener.h"
-#include"ComponentAudioSource.h"
-
 #include "OurPrimitive.h"
 
 
@@ -16,7 +11,6 @@ GameObject::GameObject()
 	mParent = nullptr;
 	transform = new ComponentTransform(this);
 	isTimetoDelete = false;
-	componentNum = 0;
 	Stype = GeometryType::NONE;
 	mComponents.push_back(transform);
 }
@@ -68,7 +62,6 @@ GameObject::GameObject(GameObject* parent)
 void GameObject::AddComponent(Component* component)
 {
 	mComponents.push_back(component);
-	
 	component->mOwner = this;
 }
 
@@ -141,30 +134,6 @@ ComponentCamera* GameObject::GetComponentCamera()
 
 	return nullptr;
 }
-ComponentAudioListener* GameObject::GetComponentAudio()
-{
-	for (size_t i = 0; i < mComponents.size(); i++)
-	{
-		if (mComponents[i]->type == ComponentType::AUDIOLISTENER) {
-
-			return (ComponentAudioListener*)mComponents[i];
-		}
-	}
-
-	return nullptr;
-}
-
-ComponentAudioSource* GameObject::GetComponentAudioSource()
-{
-	for (size_t i = 0; i < mComponents.size(); i++)
-	{
-		if (mComponents[i]->type == ComponentType::AUDIOSOURCE) {
-
-			return (ComponentAudioSource*)mComponents[i];
-		}
-	}
-	return nullptr;
-}
 
 
 bool GameObject::CheckChildOf(GameObject* parent)
@@ -233,7 +202,7 @@ void GameObject::PrintInspector()
 {
 
 
-	char* listComponenets[]{ "Add Component", "Mesh Component", "Texture Component","Camera Component", "AudioListener Component", "AudioSource Component"};
+	char* listComponenets[]{ "Add Component", "Mesh Component", "Texture Component" };
 	char aux[255] = { ' ' }; 
 
 
@@ -273,64 +242,7 @@ void GameObject::PrintInspector()
 
 		ImGui::Text("");
 		ImGui::SameLine(ImGui::GetWindowWidth() / 6);
-		if (ImGui::Combo("##AddComponent", &componentNum, listComponenets, IM_ARRAYSIZE(listComponenets)))
-		{
-			switch (componentNum) {
-				case 1:
-				{
-					//Mesh component
-					if (GetMeshComponent() == nullptr) {
-						ComponentMesh* compMesh = new ComponentMesh();
-						AddComponent(compMesh);
-					}
-					else {
-						LOG("Mesh Component already added, can't duplicate.")
-					}
-				}
-				break;
-				case 2:
-				{
-					if (GetComponentTexture() == nullptr) {
-						ComponentMaterial* compMat = new ComponentMaterial();
-						AddComponent(compMat);
-					}
-					else {
-						LOG("Texture Component already added, can't duplicate.")
-					}
-				}
-				break;
-				case 3:
-				{
-					if (GetComponentCamera() == nullptr) {
-						ComponentCamera* compCam = new ComponentCamera();
-						AddComponent(compCam);
-					}
-					else {
-						LOG("Camera Component already added, can't duplicate.")
-					}
-					break;
-				}
-				case 4:
-					if (GetComponentAudio() == nullptr) {
-						ComponentAudioListener* compListener = new ComponentAudioListener(this);
-						AddComponent(compListener);
-					}
-					else {
-						LOG("Audio listener Component already added, can't duplicate.")
-					}
-					break;
-				case 5:
-					if (GetComponentAudioSource() == nullptr) {
-						ComponentAudioSource* compAudioSource = new ComponentAudioSource(this);
-						AddComponent(compAudioSource);
-					}
-					else {
-						LOG("Audio source Component already added, can't duplicate.")
-					}
-					break;
-			}
-				componentNum = 0;
-		}
+
 
 	}
 
